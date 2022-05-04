@@ -1,13 +1,34 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=autocompletion;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+require_once('Model_Voiture.php');
 
-$voiture = $_GET['voiture'];
-$query = $pdo->prepare("SELECT * FROM `Voiture_Japonaises` where Nom = '$voiture'");
-$query->setFetchMode(\PDO::FETCH_ASSOC);
-$query->execute();
-$user=$query->fetchall();
-var_dump($user);
+$voiture = htmlspecialchars($_GET['search']);
+
+$root = new Voiture();
+
+$tab = $root->searchstart($voiture);
+
+
+var_dump($tab);
+
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+<form autocomplete="off" action="recherche.php" method="GET">
+<div class="search-container">
+	<input type="text" name="voiture" id="voiture" placeholder="Recherche Voiture">
+	<div class="suggestions">
+		<ul></ul>
+	</div>
+</div>
+</form>
+</body>
+</html>
