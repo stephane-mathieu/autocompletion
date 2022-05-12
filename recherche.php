@@ -1,34 +1,67 @@
 <?php
-require_once('Model_Voiture.php');
-
-$voiture = htmlspecialchars($_GET['search']);
-
-$root = new Voiture();
-
-$tab = $root->searchstart($voiture);
-
-
-var_dump($tab);
+require_once('controller_recherche.php');
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
+
 <body>
-<form autocomplete="off" action="recherche.php" method="GET">
-<div class="search-container">
-	<input type="text" name="voiture" id="voiture" placeholder="Recherche Voiture">
-	<div class="suggestions">
-		<ul></ul>
-	</div>
-</div>
-</form>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" autocomplete="off" action="recherche.php" method="GET">
+                        <input class="form-control me-2" type="text" name="search" id="voiture" placeholder="Rechercher votre Voiture">
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+    <div class="content">
+        <div id="sectionUp">
+        </div>
+        <div id="sectionDown">
+        </div>
+    </div>
+        <table class="table table-borderless">
+            <tbody>
+                <?php
+                foreach ($tab['start'] as $st) {  ?>
+                    <tr>
+                        <td><a href="element.php?id=<?php echo $st['id'] ?> "><img src="<?= $st['image']; ?>" width="200px" height="150px"></a></td>
+                        <td><?= $st['Nom']; ?></td>
+                        <td><?= $st['description']; ?></td>
+                    </tr>
+                <?php };
+                ?>
+                <?php foreach ($tab['contain'] as $st) {  ?>
+                    <tr>
+                        <td><a href="element.php?id=<?php echo $st['id'] ?> "><img src="<?= $st['image']; ?>" width="200px" height="150px"></a></td>
+                        <td><?= $st['Nom']; ?></td>
+                        <td><?= $st['description']; ?></td>
+                    </tr>
+                <?php }; ?>
+            </tbody>
+        </table>
+    </main>
+
+
 </body>
+
 </html>

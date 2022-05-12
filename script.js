@@ -1,18 +1,23 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let input = document.querySelector('input');
-    let suggestions = document.querySelector('.suggestions ul');
-    let Listtab = [];
+    let sectionUp = document.querySelector('#sectionUp');
+    let sectionDown = document.querySelector('#sectionDown');
+
+    console.log(sectionUp);
 
     input.addEventListener('input', function() {
 
-        // Si l'input est vide, alors on efface la liste avec les liens vers les espèces d'araignées
+        // Si l'input est vide, alors on efface la liste
         if (input.value.length == 0) {
 
-            var items = document.querySelectorAll('a')
+            var items = document.querySelectorAll('#sectionDown a')
+            var items2 = document.querySelectorAll('#sectionUp a')
+
             items.forEach(element => element.remove())
+            items2.forEach(element => element.remove())
 
 
-        } else { //si l'input n'est pas vide, on récupère le tableau avec les résultats 
+        } else { //si l'input n'est pas vide, on récupère le tableau avec les résultats
 
             var data = new FormData();
 
@@ -27,15 +32,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             }).then(response => {
 
-                var items = document.querySelectorAll('a')
-                var p = document.querySelectorAll('p')
+                var items = document.querySelectorAll('#sectionDown a');
+                var items2 = document.querySelectorAll('#sectionUp a');
+
+                var p = document.querySelectorAll('#sectionDown p')
+                var p2 = document.querySelectorAll('#sectionUp p')
+
+
 
                 //Permet de reset la liste des suggestions à chaque fois que l'input est vidé ou modifié
                 items.forEach(element => element.remove())
                 p.forEach(element => element.remove())
 
+                items2.forEach(element => element.remove())
+                p2.forEach(element => element.remove())
 
-                //Génère la liste des éléments qui commencent par l'input
 
                 for (let i = 0; i < response['start'].length; i++) {
                     let a = document.createElement('a')
@@ -45,9 +56,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     sectionUp.appendChild(a)
                 }
 
-                // Génère la liste des éléments qui contiennent
                 for (let j = 0; j < response['contain'].length; j++) {
-
                     let a = document.createElement('a')
                     a.innerText = response['contain'][j]['Nom']
                     a.href = 'recherche.php?search=' + response['contain'][j]['Nom']

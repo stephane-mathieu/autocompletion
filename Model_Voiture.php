@@ -9,7 +9,6 @@ class Voiture{
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
-
     $this->pdo = $pdo;
 
     }
@@ -43,7 +42,7 @@ class Voiture{
                     'contain'=> $contain
                 );
             }
-            for($i = 0; $i< $tab['contain'][$i];$i++){
+            for($i = 0; $i < $tab['contain'][$i];$i++){
                 foreach($tab['start'] as $element){
                     if($element['Nom'] == $tab['contain'][$i]['Nom']){
                         array_splice($tab['contain'],$i,1);
@@ -52,6 +51,14 @@ class Voiture{
             }
         
         return $tab;
+    }
+
+    public function resultelement($id){
+        $query = $this->pdo->prepare("SELECT * FROM `Voiture_Japonaises` WHERE id = '$id'");
+        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $query->execute();
+        $content = $query->fetchAll();
+        return $content;
     }
  
 }

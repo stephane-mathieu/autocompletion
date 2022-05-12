@@ -1,0 +1,18 @@
+.image {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    height: 100%;
+    width: 100vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    font-size: 2em;
+}
